@@ -5,12 +5,14 @@ namespace maze_game
     public class MazeBuilder : MonoBehaviour
     {
         private MazeGenerator _mazeGenerator;
+        private MazeRenderer _mazeRenderer;
 
         private void Awake()
         {
             _mazeGenerator = new MazeGenerator();
+            _mazeRenderer = new MazeRenderer();
 
-            _mazeGenerator.Generate(5, 4);
+            _mazeRenderer.DrawMaze(_mazeGenerator.Generate(50, 80));
         }
     }
 }

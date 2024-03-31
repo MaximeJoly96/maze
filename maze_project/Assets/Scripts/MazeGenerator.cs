@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System;
+using System.Linq;
 
 namespace maze_game
 {
@@ -18,7 +19,7 @@ namespace maze_game
 
         #region Methods
         // Based on https://en.wikipedia.org/wiki/Maze_generation_algorithm
-        public void Generate(int rows, int cols)
+        public Cell[,] Generate(int rows, int cols)
         {
             _maze = CreateDefaultMaze(rows, cols);
 
@@ -28,11 +29,45 @@ namespace maze_game
 
             while(_currentStack.Count > 0)
             {
-                Cell current = _currentStack.Pop();
+                Cell current = _currentStack.Peek();
                 current.Visited = true;
 
                 List<Cell> nonVisitedNeighours = GetNonVisitedNeighbours(_maze, current);
+                if (nonVisitedNeighours.Count > 0)
+                {
+                    _currentStack.Push(current);
+                    Cell randomNeighbour = nonVisitedNeighours[_rng.Next(nonVisitedNeighours.Count)];
+                    Direction direction = GetDirection(current, randomNeighbour);
+
+                    switch (direction)
+                    {
+                        case Direction.Left:
+                            randomNeighbour.Walls.FirstOrDefault(w => w.Dir == Direction.Right).Enabled = false;
+                            current.Walls.FirstOrDefault(w => w.Dir == Direction.Left).Enabled = false;
+                            break;
+                        case Direction.Right:
+                            randomNeighbour.Walls.FirstOrDefault(w => w.Dir == Direction.Left).Enabled = false;
+                            current.Walls.FirstOrDefault(w => w.Dir == Direction.Right).Enabled = false;
+                            break;
+                        case Direction.Top:
+                            randomNeighbour.Walls.FirstOrDefault(w => w.Dir == Direction.Bottom).Enabled = false;
+                            current.Walls.FirstOrDefault(w => w.Dir == Direction.Top).Enabled = false;
+                            break;
+                        case Direction.Bottom:
+                            randomNeighbour.Walls.FirstOrDefault(w => w.Dir == Direction.Top).Enabled = false;
+                            current.Walls.FirstOrDefault(w => w.Dir == Direction.Bottom).Enabled = false;
+                            break;
+                        case Direction.Undefined:
+                            break;
+                    }
+
+                    _currentStack.Push(randomNeighbour);
+                }
+                else
+                    _currentStack.Pop();
             }
+
+            return _maze;
         }
 
         private Cell PickRandomCell(Cell[,] maze)
@@ -75,6 +110,23 @@ namespace maze_game
             }
 
             return neighbours;
+        }
+
+        private Direction GetDirection(Cell current, Cell destination)
+        {
+            if (current.X < destination.X)
+                return Direction.Bottom;
+
+            if (current.X > destination.X)
+                return Direction.Top;
+
+            if (current.Y < destination.Y)
+                return Direction.Right;
+
+            if (current.Y > destination.Y)
+                return Direction.Left;
+
+            return Direction.Undefined;
         }
         #endregion
     }
