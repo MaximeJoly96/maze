@@ -21,8 +21,6 @@ namespace maze_game
                             lr.endWidth = 0.1f;
 
                             BoxCollider2D collider = wallGO.AddComponent<BoxCollider2D>();
-                            Rigidbody2D body = wallGO.AddComponent<Rigidbody2D>();
-                            body.bodyType = RigidbodyType2D.Static;
 
                             Direction direction = maze[i, j].Walls[w].Dir;
                             switch (direction)
