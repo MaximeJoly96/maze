@@ -15,25 +15,37 @@ namespace maze_game
                     {
                         if(maze[i, j].Walls[w].Enabled)
                         {
-                            GameObject wallGO = new GameObject("Wall " + i + " " + j);
+                            GameObject wallGO = new GameObject("Wall " + i + " " + j + " " + maze[i, j].Walls[w].Dir);
                             LineRenderer lr = wallGO.AddComponent<LineRenderer>();
                             lr.startWidth = 0.1f;
                             lr.endWidth = 0.1f;
+
+                            BoxCollider2D collider = wallGO.AddComponent<BoxCollider2D>();
+                            Rigidbody2D body = wallGO.AddComponent<Rigidbody2D>();
+                            body.bodyType = RigidbodyType2D.Static;
 
                             Direction direction = maze[i, j].Walls[w].Dir;
                             switch (direction)
                             {
                                 case Direction.Left:
                                     lr.SetPositions(new Vector3[] { new Vector3(j, i), new Vector3(j, i + 1) });
+                                    collider.size = new Vector2(0.1f, 1.0f);
+                                    collider.offset = new Vector2(j, 0.5f + i);
                                     break;
                                 case Direction.Right:
-                                    lr.SetPositions(new Vector3[] { new Vector3(j + 1, i), new Vector3(j +1, i + 1) });
+                                    lr.SetPositions(new Vector3[] { new Vector3(j + 1, i), new Vector3(j + 1, i + 1) });
+                                    collider.size = new Vector2(0.1f, 1.0f);
+                                    collider.offset = new Vector2(j + 1, 0.5f + i);
                                     break;
                                 case Direction.Top:
                                     lr.SetPositions(new Vector3[] { new Vector3(j, i), new Vector3(j + 1, i) });
+                                    collider.size = new Vector2(1.0f, 0.1f);
+                                    collider.offset = new Vector2(0.5f + j, i);
                                     break;
                                 case Direction.Bottom:
                                     lr.SetPositions(new Vector3[] { new Vector3(j, i + 1), new Vector3(j + 1, i + 1) });
+                                    collider.size = new Vector2(1.0f, 0.1f);
+                                    collider.offset = new Vector2(0.5f + j, i + 1);
                                     break;
                             }
                         }

@@ -12,7 +12,7 @@ namespace maze_game
             _mazeGenerator = new MazeGenerator();
             _mazeRenderer = new MazeRenderer();
 
-            _mazeRenderer.DrawMaze(_mazeGenerator.Generate(50, 80));
+            _mazeRenderer.DrawMaze(_mazeGenerator.Generate(10, 10));
         }
     }
 }
