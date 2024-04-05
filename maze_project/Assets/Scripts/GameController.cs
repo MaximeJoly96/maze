@@ -39,8 +39,8 @@ namespace maze_game
 
         private void CreateLevel()
         {
-            int rows = 100;
-            int cols = 100;
+            int rows = 8;
+            int cols = 8;
 
             if (_mazeBuilder != null)
                 _mazeBuilder.BuildMaze(rows, cols);

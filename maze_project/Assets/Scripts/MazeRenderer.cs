@@ -5,7 +5,7 @@ namespace maze_game
     public class MazeRenderer
     {
         #region Methods
-        public void DrawMaze(Cell[,] maze)
+        public void DrawMaze(Cell[,] maze, Material wallMaterial)
         {
             for(int i = 0; i < maze.GetLength(0); i++)
             {
@@ -19,6 +19,7 @@ namespace maze_game
                             LineRenderer lr = wallGO.AddComponent<LineRenderer>();
                             lr.startWidth = 0.1f;
                             lr.endWidth = 0.1f;
+                            lr.material = wallMaterial;
 
                             BoxCollider2D collider = wallGO.AddComponent<BoxCollider2D>();
 

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace maze_game
 {
@@ -7,7 +8,7 @@ namespace maze_game
         #region Unity Methods
         protected override void OnTriggerEnter2D(Collider2D collider)
         {
-            Debug.Log("Hit end");
+            SceneManager.LoadScene("Main");
         }
         #endregion
     }

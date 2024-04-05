@@ -12,6 +12,8 @@ namespace maze_game
         private CellBehaviour _startCell;
         [SerializeField]
         private CellBehaviour _exitCell;
+        [SerializeField]
+        private Material _wallMaterial;
 
         public LevelData MazeData { get; private set; }
 
@@ -28,7 +30,7 @@ namespace maze_game
 
             MazeData = _mazeGenerator.Generate(rows, cols);
 
-            _mazeRenderer.DrawMaze(MazeData.MazeData);
+            _mazeRenderer.DrawMaze(MazeData.MazeData, _wallMaterial);
             PlaceStartAndExit(MazeData);
         }
 
