@@ -19,7 +19,7 @@ namespace maze_game
 
         #region Methods
         // Based on https://en.wikipedia.org/wiki/Maze_generation_algorithm
-        public Cell[,] Generate(int rows, int cols)
+        public LevelData Generate(int rows, int cols)
         {
             _maze = CreateDefaultMaze(rows, cols);
 
@@ -67,7 +67,7 @@ namespace maze_game
                     _currentStack.Pop();
             }
 
-            return _maze;
+            return DefineEntranceAndExit();
         }
 
         private Cell PickRandomCell(Cell[,] maze)
@@ -127,6 +127,81 @@ namespace maze_game
                 return Direction.Left;
 
             return Direction.Undefined;
+        }
+
+        private LevelData DefineEntranceAndExit()
+        {
+            int randomSide = _rng.Next(0, 4);
+            Direction randomDirection = (Direction)randomSide;
+            Direction oppositeDirection = Direction.Undefined;
+
+            switch(randomDirection)
+            {
+                case Direction.Bottom:
+                    oppositeDirection = Direction.Top;
+                    break;
+                case Direction.Top:
+                    oppositeDirection = Direction.Bottom;
+                    break;
+                case Direction.Left:
+                    oppositeDirection = Direction.Right;
+                    break;
+                case Direction.Right:
+                    oppositeDirection = Direction.Left;
+                    break;
+            }
+
+            return MarkEntranceAndExit(_maze, randomDirection, oppositeDirection);
+        }
+
+        private LevelData MarkEntranceAndExit(Cell[,] maze, Direction startSide, Direction exitSide)
+        {
+            int xEntrance = 0;
+            int xExit = 0;
+
+            int yEntrance = 0;
+            int yExit = 0;
+
+            switch(startSide)
+            {
+                case Direction.Left:
+                    xEntrance = _rng.Next(_maze.GetLength(0));
+                    xExit = _rng.Next(_maze.GetLength(0));
+                    yEntrance = 0;
+                    yExit = _maze.GetLength(1) - 1;
+                    break;
+                case Direction.Right:
+                    xEntrance = _rng.Next(_maze.GetLength(0));
+                    xExit = _rng.Next(_maze.GetLength(0));
+                    yEntrance = _maze.GetLength(1) - 1;
+                    yExit = 0;
+                    break;
+                case Direction.Bottom:
+                    xEntrance = 0;
+                    xExit = _maze.GetLength(1) - 1;
+                    yEntrance = _rng.Next(_maze.GetLength(1));
+                    yExit = _rng.Next(_maze.GetLength(1));
+                    break;
+                case Direction.Top:
+                    xEntrance = _maze.GetLength(1) - 1;
+                    xExit = 0;
+                    yEntrance = _rng.Next(_maze.GetLength(1));
+                    yExit = _rng.Next(_maze.GetLength(1));
+                    break;
+            }
+
+            _maze[xEntrance, yEntrance].Role = CellRole.Start;
+            _maze[xExit, yExit].Role = CellRole.Exit;
+
+            return RemoveWalls(_maze, _maze[xEntrance, yEntrance], _maze[xExit, yExit], startSide, exitSide);
+        }
+
+        private LevelData RemoveWalls(Cell[,] maze, Cell startCell, Cell exitCell, Direction start, Direction exit)
+        {
+            startCell.Walls.FirstOrDefault(w => w.Dir == start).Enabled = false;
+            exitCell.Walls.FirstOrDefault(w => w.Dir == exit).Enabled = false;
+
+            return new LevelData { MazeData = maze, StartCell = startCell, EndCell = exitCell };
         }
         #endregion
     }
