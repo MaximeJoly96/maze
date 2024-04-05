@@ -193,15 +193,7 @@ namespace maze_game
             _maze[xEntrance, yEntrance].Role = CellRole.Start;
             _maze[xExit, yExit].Role = CellRole.Exit;
 
-            return RemoveWalls(_maze, _maze[xEntrance, yEntrance], _maze[xExit, yExit], startSide, exitSide);
-        }
-
-        private LevelData RemoveWalls(Cell[,] maze, Cell startCell, Cell exitCell, Direction start, Direction exit)
-        {
-            startCell.Walls.FirstOrDefault(w => w.Dir == start).Enabled = false;
-            exitCell.Walls.FirstOrDefault(w => w.Dir == exit).Enabled = false;
-
-            return new LevelData { MazeData = maze, StartCell = startCell, EndCell = exitCell };
+            return new LevelData { MazeData = maze, StartCell = _maze[xEntrance, yEntrance], EndCell = _maze[xExit, yExit] };
         }
         #endregion
     }

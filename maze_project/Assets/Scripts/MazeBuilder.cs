@@ -13,6 +13,8 @@ namespace maze_game
         [SerializeField]
         private CellBehaviour _exitCell;
 
+        public LevelData MazeData { get; private set; }
+
         public void BuildMaze(int rows, int cols)
         {
             if (rows <= 1)
@@ -24,16 +26,16 @@ namespace maze_game
             _mazeGenerator = new MazeGenerator();
             _mazeRenderer = new MazeRenderer();
 
-            LevelData maze = _mazeGenerator.Generate(rows, cols);
+            MazeData = _mazeGenerator.Generate(rows, cols);
 
-            _mazeRenderer.DrawMaze(maze.MazeData);
-            PlaceStartAndExit(maze);
+            _mazeRenderer.DrawMaze(MazeData.MazeData);
+            PlaceStartAndExit(MazeData);
         }
 
         public void PlaceStartAndExit(LevelData maze)
         {
-            Vector2 startPos = new Vector2(maze.StartCell.X, maze.StartCell.Y);
-            Vector2 endPos = new Vector2(maze.EndCell.X, maze.EndCell.Y);
+            Vector2 startPos = new Vector2(maze.StartCell.Y + 0.5f, maze.StartCell.X + 0.5f);
+            Vector2 endPos = new Vector2(maze.EndCell.Y + 0.5f, maze.EndCell.X + 0.5f);
 
             Instantiate(_startCell, startPos, Quaternion.identity);
             Instantiate(_exitCell, endPos, Quaternion.identity);

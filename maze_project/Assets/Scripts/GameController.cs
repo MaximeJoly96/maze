@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace maze_game
 {
@@ -18,20 +19,28 @@ namespace maze_game
         private void Awake()
         {
             CreateLevel();
-            InstantiatePlayer(new Vector2(0.5f, 0.5f));
+            InstantiatePlayer(_mazeBuilder.MazeData.StartCell);
+        }
+
+        private void Update()
+        {
+            if(Input.GetKeyDown(KeyCode.Q))
+            {
+                SceneManager.LoadScene("Main");
+            }
         }
         #endregion
 
         #region Methods
-        private void InstantiatePlayer(Vector2 startPosition)
+        private void InstantiatePlayer(Cell startCell)
         {
-            _playerControllerInstance = Instantiate(_playerController, startPosition, Quaternion.identity);
+            _playerControllerInstance = Instantiate(_playerController, new Vector3(startCell.Y + 0.5f, startCell.X + 0.5f), Quaternion.identity);
         }
 
         private void CreateLevel()
         {
-            int rows = 10;
-            int cols = 10;
+            int rows = 100;
+            int cols = 100;
 
             if (_mazeBuilder != null)
                 _mazeBuilder.BuildMaze(rows, cols);
