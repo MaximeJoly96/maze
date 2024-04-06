@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
+using maze_game.DataManagement;
+using System.Collections.Generic;
 
 namespace maze_game
 {
@@ -18,16 +19,9 @@ namespace maze_game
         #region Unity Methods
         private void Awake()
         {
-            CreateLevel();
+            //CreateLevel();
+            LoadLevel();
             InstantiatePlayer(_mazeBuilder.MazeData.StartCell);
-        }
-
-        private void Update()
-        {
-            if(Input.GetKeyDown(KeyCode.Q))
-            {
-                SceneManager.LoadScene("Main");
-            }
         }
         #endregion
 
@@ -46,6 +40,14 @@ namespace maze_game
                 _mazeBuilder.BuildMaze(rows, cols);
 
             _camera.transform.Translate(new Vector3(rows / 2, cols / 2));
+        }
+
+        private void LoadLevel()
+        {
+            LevelDataLoader loader = new LevelDataLoader();
+            List<LevelData> levels = loader.LoadLevels(Application.persistentDataPath + "/Saves/save.mz");
+
+            _mazeBuilder.BuildMaze(levels[1]);
         }
         #endregion
     }

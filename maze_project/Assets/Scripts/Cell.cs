@@ -23,5 +23,11 @@
                 new Wall { Dir = Direction.Bottom }
             };
         }
+
+        public void DisableWalls()
+        {
+            for (int i = 0; i < Walls.Length; i++)
+                Walls[i].Enabled = false;
+        }
     }
 }

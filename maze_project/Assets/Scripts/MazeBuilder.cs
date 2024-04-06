@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using maze_game.DataManagement;
 
 namespace maze_game
 {
@@ -7,6 +8,7 @@ namespace maze_game
     {
         private MazeGenerator _mazeGenerator;
         private MazeRenderer _mazeRenderer;
+        private LevelDataSaver _dataSaver;
 
         [SerializeField]
         private CellBehaviour _startCell;
@@ -32,6 +34,16 @@ namespace maze_game
 
             _mazeRenderer.DrawMaze(MazeData.MazeData, _wallMaterial);
             PlaceStartAndExit(MazeData);
+
+            _dataSaver = new LevelDataSaver();
+            _dataSaver.SaveLevel(MazeData);
+        }
+
+        public void BuildMaze(LevelData data)
+        {
+            _mazeRenderer = new MazeRenderer();
+            _mazeRenderer.DrawMaze(data.MazeData, _wallMaterial);
+            PlaceStartAndExit(data);
         }
 
         public void PlaceStartAndExit(LevelData maze)
