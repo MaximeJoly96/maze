@@ -5,11 +5,11 @@ namespace maze_game
     public class PlayerController : MonoBehaviour
     {
         private const float SPEED = 2.5f;
-        private Rigidbody2D _body;
+        private Rigidbody _body;
 
         private void Awake()
         {
-            _body = GetComponent<Rigidbody2D>();
+            _body = GetComponent<Rigidbody>();
         }
 
         private void FixedUpdate()

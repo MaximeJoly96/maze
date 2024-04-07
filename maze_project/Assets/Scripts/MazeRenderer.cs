@@ -5,7 +5,7 @@ namespace maze_game
     public class MazeRenderer
     {
         #region Methods
-        public void DrawMaze(Cell[,] maze, Material wallMaterial)
+        public void DrawMaze(Cell[,] maze, GameObject baseWall)
         {
             for(int i = 0; i < maze.GetLength(0); i++)
             {
@@ -15,36 +15,29 @@ namespace maze_game
                     {
                         if(maze[i, j].Walls[w].Enabled)
                         {
-                            GameObject wallGO = new GameObject("Wall " + i + " " + j + " " + maze[i, j].Walls[w].Dir);
-                            LineRenderer lr = wallGO.AddComponent<LineRenderer>();
-                            lr.startWidth = 0.1f;
-                            lr.endWidth = 0.1f;
-                            lr.material = wallMaterial;
-
-                            BoxCollider2D collider = wallGO.AddComponent<BoxCollider2D>();
+                            GameObject wallGO = Object.Instantiate(baseWall);
+                            wallGO.name = "Wall " + i + " " + j + " " + maze[i, j].Walls[w].Dir;
+                            wallGO.transform.position = new Vector3(j + 0.5f, i + 0.5f);
+                            wallGO.transform.Rotate(new Vector3(90.0f, 0.0f, 0.0f));
 
                             Direction direction = maze[i, j].Walls[w].Dir;
                             switch (direction)
                             {
                                 case Direction.Left:
-                                    lr.SetPositions(new Vector3[] { new Vector3(j, i), new Vector3(j, i + 1) });
-                                    collider.size = new Vector2(0.1f, 1.0f);
-                                    collider.offset = new Vector2(j, 0.5f + i);
+                                    wallGO.transform.localScale = new Vector3(0.2f, 1.0f, 1.0f);
+                                    wallGO.transform.position = new Vector3(wallGO.transform.position.x - 0.5f, wallGO.transform.position.y);
                                     break;
                                 case Direction.Right:
-                                    lr.SetPositions(new Vector3[] { new Vector3(j + 1, i), new Vector3(j + 1, i + 1) });
-                                    collider.size = new Vector2(0.1f, 1.0f);
-                                    collider.offset = new Vector2(j + 1, 0.5f + i);
+                                    wallGO.transform.localScale = new Vector3(0.2f, 1.0f, 1.0f);
+                                    wallGO.transform.position = new Vector3(wallGO.transform.position.x + 0.5f, wallGO.transform.position.y);
                                     break;
                                 case Direction.Top:
-                                    lr.SetPositions(new Vector3[] { new Vector3(j, i), new Vector3(j + 1, i) });
-                                    collider.size = new Vector2(1.0f, 0.1f);
-                                    collider.offset = new Vector2(0.5f + j, i);
+                                    wallGO.transform.localScale = new Vector3(1.0f, 1.0f, 0.2f);
+                                    wallGO.transform.position = new Vector3(wallGO.transform.position.x, wallGO.transform.position.y - 0.5f);
                                     break;
                                 case Direction.Bottom:
-                                    lr.SetPositions(new Vector3[] { new Vector3(j, i + 1), new Vector3(j + 1, i + 1) });
-                                    collider.size = new Vector2(1.0f, 0.1f);
-                                    collider.offset = new Vector2(0.5f + j, i + 1);
+                                    wallGO.transform.localScale = new Vector3(1.0f, 1.0f, 0.2f);
+                                    wallGO.transform.position = new Vector3(wallGO.transform.position.x, wallGO.transform.position.y + 0.5f);
                                     break;
                             }
                         }

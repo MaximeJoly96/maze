@@ -15,7 +15,7 @@ namespace maze_game
         [SerializeField]
         private CellBehaviour _exitCell;
         [SerializeField]
-        private Material _wallMaterial;
+        private GameObject _baseWall;
 
         public LevelData MazeData { get; private set; }
 
@@ -32,7 +32,7 @@ namespace maze_game
 
             MazeData = _mazeGenerator.Generate(rows, cols);
 
-            _mazeRenderer.DrawMaze(MazeData.MazeData, _wallMaterial);
+            _mazeRenderer.DrawMaze(MazeData.MazeData, _baseWall);
             PlaceStartAndExit(MazeData);
 
             _dataSaver = new LevelDataSaver();
@@ -42,7 +42,7 @@ namespace maze_game
         public void BuildMaze(LevelData data)
         {
             _mazeRenderer = new MazeRenderer();
-            _mazeRenderer.DrawMaze(data.MazeData, _wallMaterial);
+            _mazeRenderer.DrawMaze(data.MazeData, _baseWall);
             PlaceStartAndExit(data);
         }
 

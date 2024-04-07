@@ -5,7 +5,7 @@ namespace maze_game
     public class StartCellBehaviour : CellBehaviour
     {
         #region Unity Methods
-        protected override void OnTriggerEnter2D(Collider2D collider)
+        protected override void OnTriggerEnter(Collider collider)
         {
             
         }

@@ -19,8 +19,8 @@ namespace maze_game
         #region Unity Methods
         private void Awake()
         {
-            //CreateLevel();
-            LoadLevel();
+            CreateLevel();
+            //LoadLevel();
             InstantiatePlayer(_mazeBuilder.MazeData.StartCell);
         }
         #endregion
