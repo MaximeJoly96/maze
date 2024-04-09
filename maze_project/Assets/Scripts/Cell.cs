@@ -29,5 +29,16 @@
             for (int i = 0; i < Walls.Length; i++)
                 Walls[i].Enabled = false;
         }
+
+        public Cell Copy()
+        {
+            Cell copy = new Cell(X, Y);
+            for(int i = 0; i < copy.Walls.Length; i++)
+            {
+                copy.Walls[i] = new Wall { Dir = Walls[i].Dir, Enabled = Walls[i].Enabled };
+            }
+
+            return copy;
+        }
     }
 }

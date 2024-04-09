@@ -9,6 +9,7 @@ namespace maze_game
         private MazeGenerator _mazeGenerator;
         private MazeRenderer _mazeRenderer;
         private LevelDataSaver _dataSaver;
+        private MazeSolver _solver;
 
         [SerializeField]
         private CellBehaviour _startCell;
@@ -37,6 +38,8 @@ namespace maze_game
 
             _dataSaver = new LevelDataSaver();
             _dataSaver.SaveLevel(MazeData);
+
+            SolveMaze(MazeData);
         }
 
         public void BuildMaze(LevelData data)
@@ -44,6 +47,7 @@ namespace maze_game
             _mazeRenderer = new MazeRenderer();
             _mazeRenderer.DrawMaze(data.MazeData, _baseWall);
             PlaceStartAndExit(data);
+            SolveMaze(data);
         }
 
         public void PlaceStartAndExit(LevelData maze)
@@ -53,6 +57,12 @@ namespace maze_game
 
             Instantiate(_startCell, startPos, Quaternion.identity);
             Instantiate(_exitCell, endPos, Quaternion.identity);
+        }
+
+        public void SolveMaze(LevelData levelData)
+        {
+            _solver = new MazeSolver();
+            _solver.SolveMaze(levelData.MazeData, levelData.StartCell, levelData.EndCell);
         }
     }
 }
