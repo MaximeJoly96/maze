@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
+using maze_game.Models;
 
-namespace maze_game
+namespace maze_game.Engine
 {
     public class MazeRenderer
     {

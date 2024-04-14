@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using maze_game.Models;
 
-namespace maze_game
+namespace maze_game.Engine
 {
     public class MazeSolver
     {
-        private Random _rng;
+        private readonly Random _rng;
 
         #region ctor
         public MazeSolver()

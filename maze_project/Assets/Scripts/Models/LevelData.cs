@@ -1,4 +1,4 @@
-﻿namespace maze_game
+﻿namespace maze_game.Models
 {
     public class LevelData
     {

@@ -1,13 +1,14 @@
 using System.Collections.Generic;
 using System;
 using System.Linq;
+using maze_game.Models;
 
-namespace maze_game
+namespace maze_game.Engine
 {
     public class MazeGenerator
     {
-        private Stack<Cell> _currentStack;
-        private Random _rng;
+        private readonly Stack<Cell> _currentStack;
+        private readonly Random _rng;
 
         private Cell[,] _maze;
 

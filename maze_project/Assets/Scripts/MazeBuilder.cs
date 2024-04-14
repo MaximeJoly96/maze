@@ -1,6 +1,9 @@
 ﻿using System;
 using UnityEngine;
 using maze_game.DataManagement;
+using maze_game.Engine;
+using maze_game.Models;
+using maze_game.Behaviours;
 
 namespace maze_game
 {

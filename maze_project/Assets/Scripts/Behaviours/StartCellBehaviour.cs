@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace maze_game
+namespace maze_game.Behaviours
 {
     public class StartCellBehaviour : CellBehaviour
     {

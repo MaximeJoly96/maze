@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace maze_game
+namespace maze_game.Behaviours
 {
     public class ExitCellBehaviour : CellBehaviour
     {

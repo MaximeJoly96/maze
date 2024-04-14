@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using maze_game.DataManagement;
 using System.Collections.Generic;
+using maze_game.Models;
 
 namespace maze_game
 {
@@ -33,8 +34,8 @@ namespace maze_game
 
         private void CreateLevel()
         {
-            int rows = 8;
-            int cols = 8;
+            int rows = 100;
+            int cols = 100;
 
             if (_mazeBuilder != null)
                 _mazeBuilder.BuildMaze(rows, cols);

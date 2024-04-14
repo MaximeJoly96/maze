@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System;
 using System.Linq;
+using maze_game.Models;
 
 namespace maze_game.DataManagement
 {
@@ -15,7 +16,7 @@ namespace maze_game.DataManagement
             string content = reader.ReadToEnd();
             reader.Close();
 
-            string[] allLevels = content.Split('#');
+            string[] allLevels = content.Split(LevelDataManager.SEPARATOR);
             for(int i = 0; i < allLevels.Length; i++)
             {
                 levels.Add(ParseLevel(allLevels[i]));
@@ -28,42 +29,31 @@ namespace maze_game.DataManagement
         {
             LevelData level = new LevelData();
 
-            if (data.Contains("cell"))
+            if (data.Contains(LevelDataManager.CELL_KEYWORD))
             {
                 string[] splitData = data.Replace("\r\n", "-").Split('-');
                 List<Cell> allCells = new List<Cell>();
 
                 for(int i = 0; i < splitData.Length; i++)
                 {
-                    if(splitData[i].StartsWith("cell"))
+                    if(splitData[i].StartsWith(LevelDataManager.CELL_KEYWORD))
                     {
                         // this indicates position
-                        string content = splitData[i].Replace("cell ", "");
-                        string[] split = content.Split(' ');
-                        int x = int.Parse(split[0]);
-                        int y = int.Parse(split[1]);
+                        string content = splitData[i].Replace(LevelDataManager.CELL_KEYWORD + " ", "");
 
-                        Cell cell = new Cell(x, y);
+                        Cell cell = TransformContentToCell(content);
                         cell.DisableWalls();
                         allCells.Add(cell);
                     }
-                    else if (splitData[i].StartsWith("start"))
+                    else if (splitData[i].StartsWith(LevelDataManager.START_KEYWORD))
                     {
-                        string content = splitData[i].Replace("start = ", "");
-                        string[] split = content.Split(' ');
-                        int x = int.Parse(split[0]);
-                        int y = int.Parse(split[1]);
-
-                        level.StartCell = new Cell(x, y);
+                        string content = splitData[i].Replace(LevelDataManager.START_KEYWORD + " = ", "");
+                        level.StartCell = TransformContentToCell(content);
                     }
-                    else if (splitData[i].StartsWith("exit"))
+                    else if (splitData[i].StartsWith(LevelDataManager.EXIT_KEYWORD))
                     {
-                        string content = splitData[i].Replace("exit = ", "");
-                        string[] split = content.Split(' ');
-                        int x = int.Parse(split[0]);
-                        int y = int.Parse(split[1]);
-
-                        level.EndCell = new Cell(x, y);
+                        string content = splitData[i].Replace(LevelDataManager.EXIT_KEYWORD + " = ", "");
+                        level.EndCell = TransformContentToCell(content);
                     }
                     else
                     {
@@ -95,6 +85,15 @@ namespace maze_game.DataManagement
             }
 
             return array;
+        }
+
+        private Cell TransformContentToCell(string content)
+        {
+            string[] split = content.Split(' ');
+            int x = int.Parse(split[0]);
+            int y = int.Parse(split[1]);
+
+            return new Cell(x, y);
         }
         #endregion
     }
