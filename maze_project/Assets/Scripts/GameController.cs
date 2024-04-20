@@ -1,54 +1,39 @@
 ﻿using UnityEngine;
-using maze_game.DataManagement;
-using System.Collections.Generic;
-using maze_game.Models;
+using maze_game.Managers;
 
 namespace maze_game
 {
     public class GameController : MonoBehaviour
     {
-        private PlayerController _playerControllerInstance;
+        [SerializeField]
+        private EnvironmentManager _environmentManager;
+        [SerializeField]
+        private LevelManager _levelManager;
 
         [SerializeField]
-        private PlayerController _playerController;
+        private int _rows;
         [SerializeField]
-        private MazeBuilder _mazeBuilder;
-        [SerializeField]
-        private Camera _camera;
-
+        private int _cols;
 
         #region Unity Methods
         private void Awake()
         {
+            Init();
             CreateLevel();
-            //LoadLevel();
-            InstantiatePlayer(_mazeBuilder.MazeData.StartCell);
         }
         #endregion
 
         #region Methods
-        private void InstantiatePlayer(Cell startCell)
+        private void Init()
         {
-            _playerControllerInstance = Instantiate(_playerController, new Vector3(startCell.Y + 0.5f, startCell.X + 0.5f), Quaternion.identity);
+            _levelManager.Init();
+            _environmentManager.Init();
         }
 
         private void CreateLevel()
         {
-            int rows = 8;
-            int cols = 8;
-
-            if (_mazeBuilder != null)
-                _mazeBuilder.BuildMaze(rows, cols);
-
-            _camera.transform.Translate(new Vector3(rows / 2, cols / 2));
-        }
-
-        private void LoadLevel()
-        {
-            LevelDataLoader loader = new LevelDataLoader();
-            List<LevelData> levels = loader.LoadLevels(Application.persistentDataPath + "/Saves/save.mz");
-
-            _mazeBuilder.BuildMaze(levels[1]);
+            _levelManager.CreateLevel(_rows, _cols);
+            _environmentManager.CenterMazeOnCamera(_rows, _cols);
         }
         #endregion
     }
