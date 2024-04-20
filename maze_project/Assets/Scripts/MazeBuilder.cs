@@ -13,6 +13,7 @@ namespace maze_game
         private MazeRenderer _mazeRenderer;
         private LevelDataSaver _dataSaver;
         private MazeSolver _solver;
+        private StraightCorridorsDetector _straightCorridorsDetector;
 
         [SerializeField]
         private CellBehaviour _startCell;
@@ -43,6 +44,9 @@ namespace maze_game
             _dataSaver.SaveLevel(MazeData);
 
             SolveMaze(MazeData);
+
+            _straightCorridorsDetector = new StraightCorridorsDetector();
+            _straightCorridorsDetector.DetectCorridorsOfGivenLength(5, MazeData);
         }
 
         public void BuildMaze(LevelData data)
