@@ -14,6 +14,7 @@ namespace maze_game
         private LevelDataSaver _dataSaver;
         private MazeSolver _solver;
         private StraightCorridorsDetector _straightCorridorsDetector;
+        private DeadEndsDetector _deadEndsDetector;
 
         [SerializeField]
         private CellBehaviour _startCell;
@@ -47,6 +48,9 @@ namespace maze_game
 
             _straightCorridorsDetector = new StraightCorridorsDetector();
             _straightCorridorsDetector.DetectCorridorsOfGivenLength(5, MazeData);
+
+            _deadEndsDetector = new DeadEndsDetector();
+            _deadEndsDetector.DetectDeadEnds(MazeData);
         }
 
         public void BuildMaze(LevelData data)

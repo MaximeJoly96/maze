@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using maze_game.Models;
-using maze_game.DataManagement;
 
 namespace maze_game.Engine
 {
