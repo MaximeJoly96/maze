@@ -153,6 +153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _baseWall: {fileID: 6565907787484313720, guid: aeadb4c664f45bb4fb3fc70d16d02d1b, type: 3}
+  _playerController: {fileID: 3274640043165540739, guid: e9a43adf16593b44eb750b8df8918a3b, type: 3}
 --- !u!4 &19081020
 Transform:
   m_ObjectHideFlags: 0
@@ -377,8 +378,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _environmentManager: {fileID: 1306297963}
   _levelManager: {fileID: 19081019}
-  _rows: 8
-  _cols: 8
+  _rows: 10
+  _cols: 10
 --- !u!4 &491737537
 Transform:
   m_ObjectHideFlags: 0
